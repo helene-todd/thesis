@@ -1,0 +1,56 @@
+# CONTINUATION OF STEADY STATES IN G FOR J=15
+run(e='model', c='model')
+sv('eqg')
+cl()
+rm -f d.*
+
+# HOPF POINT BIFURCATION IN (G,J)
+run(e='model',c='model',s='eqg',IRS='HB1',ICP=['J','G'],ISW=2,DS=-0.01,DSMAX=0.01,NMX=10000,NPR=2,UZSTOP={'J':-15.0})
+sv('hb')
+cl()
+rm -f d.*
+
+# LOCATING A LP POINT
+run(e='model',c='model',s='eqg',IRS='HB1',ICP=['J'],ISW=1,DS=-0.01,DSMAX=-0.01,NMX=2000,NPR=2,UZSTOP={'J':-5.0})
+sv('lpp')
+cl()
+rm -f d.*
+
+
+# CONTINUATION AT LP POINT
+run(e='model',c='model',s='lpp',IRS='LP1',ICP=['J','G'],ISW=2,DS=0.01,DSMAX=0.05,NMX=1000,NPR=2)
+sv('lp1')
+cl()
+rm -f d.*
+
+# CONTINUATION AT LP POINT DS-
+run(e='model',c='model',s='lpp',IRS='LP1',ICP=['J','G'],ISW=2,DS=-0.01,DSMAX=0.05,NMX=1000,NPR=2)
+sv('lp2')
+cl()
+rm -f d.*
+
+# CONTINUATION OF LIMIT CYCLE IN G FOR J=10
+run(e='modelper',c='modelper',IPLT=-2,DS=0.01,NMX=4000)
+sv('percont')
+cl
+!rm -f d.*
+
+# CONTINUATION OF LP DS-
+run(e='modelper',c='modelper',s='percont',IRS='LP1',IPS=2,ICP=['J','G','T'],DS='-',UZR={'T':38.6009}) 
+sv('homm')
+cl
+!rm -f .*
+
+# CONTINUATION OF LP DS+
+run(e='modelper',c='modelper',s='percont',IRS='LP1',IPS=2,ICP=['J','G','T'],DS=0.01,UZR={'T':38.6009},UZSTOP={'J':13.5}) 
+sv('homp')
+cl
+!rm -f .*
+
+# PLOTS
+hb=loadbd('hb')
+lp1=loadbd('lp1')
+lp2=loadbd('lp2')
+homm=loadbd('homm')
+homp=loadbd('homp')
+pl(hb+lp1+lp2+homm+homp,use_labels=False,bifurcation_x=['G'],bifurcation_y=['J'],maxx=2,minx=-2,maxy=20,miny=-5,color_list='red black black blue blue')

@@ -1,0 +1,14 @@
+# Neural Mass ODE equations
+r' = 1 + 2*r*v - g*r
+v' = v**2 + J*r - r**2 + eta + I
+
+# Initial conditions
+init r=2,v=0
+
+# Parameters
+par eta=-2,I=0,g=0,J=6,taum=1
+
+# Configure XPP's options
+@ total=100, xlo=0, xhi=100, ylo=-10, yhi=10
+
+done

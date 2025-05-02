@@ -1,0 +1,14 @@
+# Neural Mass ODE equations
+r' = (delta/(taum*pi) + 2*r*v - 2*taum*log(a)*r**2 - g*r)/taum
+v' = (v**2 + eta + J*taum*r + I - (log(a)**2 + pi**2)*(taum*r)**2 + delta*log(a)/pi)/taum
+
+# Initial conditions
+init r=0,v=0
+
+# Parameters
+par a=1,eta=-1,delta=0.3,I=0,g=0.4,J=10,taum=1
+
+# Configure XPP's options
+@ total=100, xlo=0, xhi=100, ylo=-10, yhi=10
+
+done

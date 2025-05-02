@@ -1,0 +1,48 @@
+# CONTINUATION OF STEADY STATES IN G FOR J=10
+run(e='model', c='model',STOP='HB1')
+sv('eqg')
+cl()
+rm -f d.*
+
+# HOPF POINT BIFURCATION IN (G,J)
+run(e='model',c='model',s='eqg',IRS='HB1',ICP=['J','G'],ISW=2,DS=-0.01,DSMAX=0.01,NMX=8000,NPR=2,UZSTOP={'J':-1})
+sv('hb')
+cl()
+rm -f d.*
+
+# FINDING A LP POINT (SADDLE-NODE BRANCH)
+run(e='model',c='model',s='hb',IRS='BT1',ICP=['J'],ISW=1,DS=-0.05,DSMAX=0.05,NMX=1500,NPR=1,UZSTOP={'J':-5})
+sv('bt')
+cl()
+rm -f d.*
+
+# SADDLE NODE DS-
+run(e='model',c='model',s='bt',IRS='LP1',ICP=['J', 'G'],ISW=2,DS=-0.05,DSMAX=0.05,NMX=500,NPR=2)
+sv('lp1')
+cl()
+rm -f d.*
+
+# SADDLE NODE DS+
+run(e='model',c='model',s='bt',IRS='LP1',ICP=['J', 'G'],ISW=2,DS=0.05,DSMAX=0.05,NMX=500,NPR=2)
+sv('lp2')
+cl()
+rm -f d.*
+
+# WHAT DOES THIS LINE CORRESPOND TO?
+run(e='model',c='model',s='hb',IRS='BT1',ICP=['G', 'J'],ISW=2,ILP=0,ISP=0,DS=0.01,DSMAX=0.01,NMX=3000,NPR=2) 
+sv('myst')
+cl()
+rm -f d.*
+
+# HOMOCLINIC ??
+# COMPUTING PERIODIC SOLUTION
+run(e='modelper',c='modelper') 
+
+
+# PLOTS
+hb=loadbd('hb')
+lp1=loadbd('lp1')
+lp2=loadbd('lp2')
+myst=loadbd('myst')
+
+pl(hb+lp1+lp2+myst,use_labels=False,bifurcation_x=['G'],bifurcation_y=['J'],maxx=8,minx=0,maxy=15,miny=-15,color_list='red blue blue black')

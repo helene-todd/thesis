@@ -1,0 +1,14 @@
+# CONTINUATION OF LIMIT CYCLE IN G FOR J=10
+run(e='modelper',c='modelper',IPLT=-2,DS=0.01,NMX=4000)
+sv('percont')
+cl
+!rm -f d.*
+
+# CONTINUATION OF LP
+run(e='modelper',c='modelper',s='percont',IRS='LP1',IPS=2,ICP=['J','G','T'],DS='-',UZR={'T':25.4373},UZSTOP={'J':4.421}) 
+sv('hom')
+cl
+!rm -f .*
+
+hom=loadbd('hom')
+pl(hom,use_labels=False,color_list='blue red black black',bifurcation_x=['G'],bifurcation_y=['J'],maxx=2,minx=-2,maxy=20,miny=-5)

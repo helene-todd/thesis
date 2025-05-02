@@ -1,0 +1,9 @@
+unames = {1:'R', 2:'V'}
+parnames = {1: 'G', 2:'J', 3:'A', 4:'TAUM', 5:'ETA', 6:'DELTA', 7:'T'}
+NDIM = 2, IPS = 1, IRS = 0, ILP = 1
+NTST = 15, NCOL = 4, IAD = 3, ISP = 2, ISW = 1, IPLT = 0, NBC = 0, NINT = 0
+NMX = 1000, NPR = 2, MXBF = 5, IID = 2, ITMX = 8, ITNW = 7, NWTN = 4, JAC = 0
+EPSL = 1e-08, EPSU = 1e-08, EPSS = 1e-06
+DS = 0.01, DSMIN = 1e-3, DSMAX = 0.1, IADS = 1
+NPAR = 7, THL = {}, THU = {}
+UZSTOP = {}
