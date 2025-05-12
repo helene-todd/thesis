@@ -1,0 +1,12 @@
+r1=loadbd('R1')
+tr=loadbd('TR')
+trm=loadbd('TRm')
+r2=loadbd('R2')
+r2m=loadbd('R2m')
+r3=loadbd('R3')
+r3m=loadbd('R3m')
+r4=loadbd('R4')
+r4m=loadbd('R4m')
+pd=loadbd('PD')
+
+pl(r1+r2+r2m+r3+r3m+r4+r4m+tr+trm+pd,use_labels=False,color_list='purple yellow yellow orange orange red red brown brown green',symbol_color='black',bifurcation_x=['G1'],bifurcation_y=['J2'],maxx=1.,minx=0.4,maxy=-2.5,miny=-4.7)

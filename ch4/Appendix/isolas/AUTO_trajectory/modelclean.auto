@@ -1,0 +1,32 @@
+#--------------------------------------------------------------------------------
+# DIFFERENT EQUATION AND CONSTANT FILES: STARTING FROM A SIMULATED PERIODIC ORBIT
+#--------------------------------------------------------------------------------
+# CONTINUATION OF LIMIT CYCLES IN J2 FOR G1=0.6
+run(e='modelper',c='modelper',IPLT=-2,DS=0.005,DSMAX=0.005,NMX=1000)
+sv('percont')
+cl
+!rm -f d.*
+
+pc=loadbd('percont')
+pl(pc,use_labels=False,color_list='black black blue blue')
+
+# CONTINUATION OF SADDLE-NODES OF LIMIT CYCLES IN (J2,G1) #1
+#run(e='modelper',c='modelper',s='percont',IRS='LP1',IPS=2,ICP=['J2','G1','T'],NTST=500,ISW=2,NMX=200,NPR=200)
+#sv('LP1_start')
+#cl
+#!rm -f .*
+
+#run(e='modelper',c='modelper',s='LP1_start',IRS=16,IPS=2,ICP=['J2','G1','T'],NTST=500,ISW=2,NMX=1000,NPR=2)
+#sv('LP')
+#cl
+#!rm -f .*
+
+#run(e='modelper',c='modelper',s='LP1_start',IRS=16,IPS=2,ICP=['J2','G1','T'],DS='-',NTST=500,ISW=2,NMX=1000,NPR=2)
+#sv('LPm')
+#cl
+#!rm -f .*
+
+#lp=loadbd('LP')
+#lpm=loadbd('LPm')
+
+#pl(lp+lpm,use_labels=False,color_list='black black blue #blue',bifurcation_x=['G1'],bifurcation_y=['J2'],maxx=1.3,minx=0,maxy=0,miny=-8)

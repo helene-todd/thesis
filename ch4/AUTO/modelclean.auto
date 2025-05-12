@@ -1,0 +1,176 @@
+# CONTINUATION OF STEADY STATES IN G1 FOR J2=-8.0
+run(e='model',c='model')
+sv('eqg1')
+cl()
+!rm -f d.*
+# CONTINUATION OF HOPF POINTS IN (G1,J2)
+run(e='model',c='model',s='eqg1',IRS='HB1',ICP=['G1','J2'],ISW=2,DS=0.001,DSMAX=0.005,NMX=5000,NPR=2)
+sv('hbrg1j2ref')
+cl()
+!rm -f d.*
+run(e='model',c='model',s='hbrg1j2ref',IRS=3004,ICP=['G1','J2'],ISW=2,DS=-0.001,DSMAX=0.01,NMX=5000,NPR=2)
+sv('hbrg1j2ref2')
+cl()
+!rm -f d.*
+run(e='model',c='model',s='eqg1',IRS='HB1',ICP=['G1','J2'],ISW=2,DS=-0.001,DSMAX=0.005,NMX=5000,NPR=2)
+sv('hbrg1j2refm')
+cl()
+!rm -f d.*
+
+
+# CONTINUATION OF STEADY STATES IN G1 FOR J2=-8.0, STOP AT G1=0.6
+run(e='model',c='model',UZSTOP={'G1':0.6})
+sv('eqg1_stopg10p6')
+cl()
+!rm -f d.*
+# CONTINUATION OF STEADY STATES IN J2 FOR G1=0.6, STOP AT J2=-2.0
+run(e='model',c='model',s='eqg1_stopg10p6',IRS='UZ1',ICP=['J2'],UZSTOP={'J2':-2.0})
+sv('eqj2_g10p6_stopj2m2')
+cl()
+!rm -f d.*
+# CONTINUATION OF STEADY STATES IN G1 FOR J2=-2.0
+run(e='model',c='model',s='eqj2_g10p6_stopj2m2',IRS='UZ1',ICP=['G1'])
+sv('eqg1_j2m2')
+cl()
+!rm -f d.*
+# CONTINUATION OF LIMIT CYCLES IN G1 FOR J2=-2
+run(e='model',c='model',s='eqg1_j2m2',IRS='HB1',IPS=2,ICP=['G1','T'],NTST=500,NMX=1086)
+sv('hbrg1_j2m2')
+cl()
+!rm -f d.*
+# CONTINUATION OF SADDLE-NODES OF LIMIT CYCLES IN (G1,J2)
+run(e='model',c='model',s='hbrg1_j2m2',IRS='LP1',IPS=2,ICP=['G1','J2','T'],NTST=500,ISW=2,NMX=200,NPR=200)
+sv('snpg1J2start')
+cl()
+!rm -f d.*
+run(e='model',c='model',s='snpg1J2start',IRS=1093,IPS=2,ICP=['G1','J2','T'],NTST=500,ISW=2,NMX=1000,NPR=2)
+sv('snpg1J2go1')
+cl()
+!rm -f d.*
+run(e='model',c='model',s='snpg1J2start',IRS=1093,IPS=2,ICP=['G1','J2','T'],NTST=500,ISW=2,NMX=1000,NPR=2,DS='-')
+sv('snpg1J2go2')
+cl()
+!rm -f d.*
+
+# CONTINUATION OF STEADY STATES IN G1 FOR J2=-2.0, STOP AT G1=1.0
+run(e='model',c='model',s='eqj2_g10p6_stopj2m2',IRS='UZ1',ICP=['G1'],UZSTOP={'G1':1.0})
+sv('eqg1_J2m2_stopg11')
+cl()
+!rm -f d.*
+# CONTINUATION OF STEADY STATES IN J2 FOR G1=1.0
+run(e='model',c='model',s='eqg1_J2m2_stopg11',IRS='UZ1',ICP=['J2'],DSMAX=0.05)
+sv('eqJ2_g11')
+cl()
+!rm -f d.*
+run(e='model',c='model',s='eqg1_J2m2_stopg11',IRS='UZ1',ICP=['J2'],DSMAX=0.05,DS='-')
+sv('eqJ2_g11m')
+cl()
+!rm -f d.*
+# CONTINUATION OF SADDLE-NODES OF EQUILIBRIA IN (J2,G1)
+run(e='model',c='model',s='eqJ2_g11',IRS='LP2',ICP=['J2','G1'],ISW=2,DSMAX=0.05)
+sv('lp2j2g1')
+cl()
+!rm -f d.*
+run(e='model',c='model',s='eqJ2_g11',IRS='LP2',ICP=['J2','G1'],ISW=2,DSMAX=0.05,DS='-')
+sv('lp2j2g1_2')
+cl()
+!rm -f d.*
+
+# CONTINUATION OF STEADY STATES IN J2 FOR G1=0.6
+run(e='model',c='model',s='eqg1_stopg10p6',IRS='UZ1',ICP=['J2'])
+sv('eqj2_g10p6')
+cl()
+!rm -f d.*
+# CONTINUATION OF LIMIT CYCLES IN J2 FOR G1=0.6
+run(e='model',c='model',s='eqj2_g10p6',IRS='HB1',IPS=2,ICP=['J2','T'],NTST=500,NMX=1000,NPR=2)
+sv('hbrj2_g10p6')
+cl
+!rm -f d.*
+# CONTINUATION OF PERIOD-DOUBLING BIFURCATION CYCLES IN (J2,G1)
+run(e='model',c='model',s='hbrj2_g10p6',IRS='PD1',IPS=2,ICP=['J2','G1','T'],NTST=800,ISW=2,NMX=200,NPR=200)
+sv('pd2parg1j2start')
+cl
+!rm -f d.*
+run(e='model',c='model',s='pd2parg1j2start',IRS=1017,IPS=2,ICP=['J2','G1','T'],NTST=800,ISW=2,NMX=204,NPR=1)
+sv('pd2parg1j2go')
+cl
+!rm -f d.*
+
+#--------------------------------------------------------------------------------
+# DIFFERENT EQUATION AND CONSTANT FILES: STARTING FROM A SIMULATED PERIODIC ORBIT
+#--------------------------------------------------------------------------------
+# CONTINUATION OF LIMIT CYCLES IN J2 FOR G1=1.0
+run(e='modelper',c='modelper',IPLT=-2,DS='-')
+sv('lcinJ2_G11')
+cl
+!rm -f d.*
+# CONTINUATION OF SADDLE-NODES OF LIMIT CYCLES IN (J2,G1)
+run(e='modelper',c='modelper',s='lcinJ2_G11',IRS='LP1',IPS=2,ICP=['J2','G1','T'],NTST=500,ISW=2,NMX=200,NPR=200)
+sv('snp1per_J2G1_start')
+cl
+!rm -f .*
+run(e='modelper',c='modelper',s='snp1per_J2G1_start',IRS=503,IPS=2,ICP=['J2','G1','T'],NTST=500,ISW=2,NMX=1000,NPR=2)
+sv('snp1per_J2G1_go')
+cl
+!rm -f .*
+run(e='modelper',c='modelper',s='snp1per_J2G1_start',IRS=503,IPS=2,ICP=['J2','G1','T'],NTST=500,ISW=2,NMX=1000,NPR=2,DS='-')
+sv('snp1per_J2G1_gom')
+cl
+!rm -f .*
+# continue SNP2 in J2 and G1
+run(e='modelper',c='modelper',s='lcinJ2_G11',IRS='LP2',IPS=2,ICP=['J2','G1','T'],NTST=500,ISW=2,NMX=200,NPR=200)
+sv('snp2per_J2G1_start')
+cl
+!rm -f .*
+run(e='modelper',c='modelper',s='snp2per_J2G1_start',IRS=503,IPS=2,ICP=['J2','G1','T'],NTST=500,ISW=2,NMX=1000,NPR=2)
+sv('snp2per_J2G1_go')
+cl
+!rm -f .*
+run(e='modelper',c='modelper',s='snp2per_J2G1_start',IRS=503,IPS=2,ICP=['J2','G1','T'],NTST=500,ISW=2,NMX=1000,NPR=2,DS='-')
+sv('snp2per_J2G1_gom')
+cl
+!rm -f .*
+
+#--------------------------------------------------------------------------------
+# INVARIANT TORUS
+#--------------------------------------------------------------------------------
+### CONTINUATION OF LIMIT CYCLES IN J2 FOR G1=0.8 ###
+run(e='modelper2',c='modelper2',IPLT=-2,DS=-0.001,NMX=2000)
+sv('percont')
+cl
+!rm -f d.*
+
+### CONTINUATION OF LIMIT CYCLES IN (J2,G1) ON TR ###
+run(e='modelper2',c='modelper2',s='percont',IRS='TR1',IPS=2,ICP=['J2','G1','T'],NTST=500,ISW=2,NMX=200,NPR=200)
+sv('TR_start')
+cl
+!rm -f .*
+
+### TORUS RESONANCE BIFURCATION ###
+run(e='modelper2',c='modelper2',s='TR_start',IRS=1004,IPS=2,ICP=['J2','G1','T'],DS=0.01,DSMIN=0.001,DSMAX=0.01,NTST=200,ISW=2,NMX=1000,NPR=2)
+sv('TR')
+cl
+!rm -f .*
+
+run(e='modelper2',c='modelper2',s='TR_start',IRS=1004,IPS=2,ICP=['J2','G1','T'],DS=-0.01,DSMIN=-0.001,DSMAX=-0.01,NTST=200,ISW=2,NMX=2000,NPR=2)
+sv('TRm')
+cl
+!rm -f .*
+
+# PLOT THE VARIOUS BRANCHES IN THE 2-PARAMETER PLANE (G1,J2)
+h1=loadbd('hbrg1j2ref')
+h2=loadbd('hbrg1j2ref2')
+h1m=loadbd('hbrg1j2refm')
+snp1=loadbd('snpg1J2go1')
+snp2=loadbd('snpg1J2go2')
+lp1=loadbd('lp2j2g1')
+lp2=loadbd('lp2j2g1_2')
+pd1=loadbd('pd2parg1j2go')
+snpp1=loadbd('snp1per_J2G1_go')
+snpp1m=loadbd('snp1per_J2G1_gom')
+snpp2=loadbd('snp2per_J2G1_go')
+snpp2m=loadbd('snp2per_J2G1_gom')
+tr=loadbd('TR')
+trm=loadbd('TRm')
+
+pl(h1+h1m+h2+snp1+snp2+lp1+lp2+pd1+snpp1+snpp1m+snpp2+snpp2m+tr+trm,use_labels=False,color_list='black black black blue blue red red orange blue blue blue blue green green green',bifurcation_x=['G1'],bifurcation_y=['J2'],maxx=1.3,minx=0,maxy=0,miny=-10)

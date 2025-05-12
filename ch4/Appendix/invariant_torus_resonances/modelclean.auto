@@ -1,0 +1,101 @@
+#--------------------------------------------------------------------------------
+# DIFFERENT EQUATION AND CONSTANT FILES: STARTING FROM A SIMULATED PERIODIC ORBIT
+#--------------------------------------------------------------------------------
+### CONTINUATION OF LIMIT CYCLES IN J2 FOR G1=0 ###
+run(e='modelper3',c='modelper3',IPLT=-2,DS=-0.001,NMX=2000,STOP='PD1')
+sv('percont3')
+cl
+!rm -f d.*
+### CONTINUATION OF LIMIT CYCLES IN (J2,G1) ON PD ###
+run(e='modelper3',c='modelper3',s='percont3',IRS='PD1',IPS=2,ICP=['J2','G1','T'],NTST=500,ISW=2,NMX=200,NPR=200)
+sv('PD_start')
+cl
+!rm -f .*
+### PD BIFURCATION ###
+run(e='modelper3',c='modelper3',s='PD_start',IRS=97,IPS=2,ICP=['J2','G1','T'],DS=-0.001,DSMIN=-0.001,DSMAX=-0.01,NTST=500,ISW=2,NMX=1000,NPR=2,STOP='R11')
+sv('PD')
+cl
+!rm -f .*
+
+### CONTINUATION OF LIMIT CYCLES IN J2 FOR G1=1 ###
+run(e='modelper2',c='modelper2',IPLT=-2,DS=-0.001,NMX=2000,STOP='LP1')
+sv('percont2')
+cl
+!rm -f d.*
+### CONTINUATION OF LIMIT CYCLES IN (J2,G1) ON LP ###
+run(e='modelper2',c='modelper2',s='percont2',IRS='LP1',IPS=2,ICP=['J2','G1','T'],NTST=500,ISW=2,NMX=200,NPR=200)
+sv('LP_start')
+cl
+!rm -f .*
+### LP BIFURCATION ###
+run(e='modelper2',c='modelper2',s='LP_start',IRS=30,IPS=2,ICP=['J2','G1','T'],DS=-0.001,DSMIN=-0.001,DSMAX=-0.01,NTST=500,ISW=2,NMX=1000,NPR=2,STOP='R11')
+sv('LP')
+cl
+!rm -f .*
+### CONTINUATION OF LIMIT CYCLES IN (J2,G1) ON R1 ###
+run(e='modelper2',c='modelper2',s='LP',IRS='R11',ISW=-1,IPS=2,ICP=['J2','G1','T'],DS=0.0001,NTST=500,NMX=500,NPR=200)
+sv('R1')
+cl
+!rm -f .*
+
+
+### CONTINUATION OF LIMIT CYCLES IN J2 FOR G1=0.8 ###
+run(e='modelper',c='modelper',IPLT=-2,DS=-0.001,NMX=2000)
+sv('percont')
+cl
+!rm -f d.*
+### CONTINUATION OF LIMIT CYCLES IN (J2,G1) ON TR ###
+run(e='modelper',c='modelper',s='percont',IRS='TR1',IPS=2,ICP=['J2','G1','T'],NTST=500,ISW=2,NMX=200,NPR=200)
+sv('TR_start')
+cl
+!rm -f .*
+### TORUS RESONANCE BIFURCATION ###
+run(e='modelper',c='modelper',s='TR_start',IRS=1004,IPS=2,ICP=['J2','G1','T'],DS=0.01,DSMIN=0.001,DSMAX=0.01,NTST=200,ISW=2,NMX=1000,NPR=2)
+sv('TR')
+cl
+!rm -f .*
+run(e='modelper',c='modelper',s='TR_start',IRS=1004,IPS=2,ICP=['J2','G1','T'],DS=-0.01,DSMIN=-0.001,DSMAX=-0.01,NTST=200,ISW=2,NMX=2000,NPR=2)
+sv('TRm')
+cl
+!rm -f .*
+### 2:1 RESONANCE ###
+run(e='modelper',c='modelper',s='TR',IRS='R21',ISW=-1,IPS=2,ICP=['J2','G1','T'],DS=0.01,NTST=200,NMX=2000,NPR=2)
+sv('R2')
+cl
+!rm -f .*
+run(e='modelper',c='modelper',s='TR',IRS='R21',ISW=-1,IPS=2,ICP=['J2','G1','T'],DS='-',NTST=200,NMX=2000,NPR=2)
+sv('R2m')
+cl
+!rm -f .*
+### 3:1 RESONANCE ###
+run(e='modelper',c='modelper',s='TR',IRS='R31',ISW=-1,IPS=2,ICP=['J2','G1','T'],DS=0.01,NTST=200,NMX=2000,NPR=2)
+sv('R3')
+cl
+!rm -f .*
+run(e='modelper',c='modelper',s='TR',IRS='R31',ISW=-1,IPS=2,ICP=['J2','G1','T'],DS='-',NTST=200,NMX=2000,NPR=2)
+sv('R3m')
+cl
+!rm -f .*
+### 4:1 RESONANCE ###
+run(e='modelper',c='modelper',s='TRm',IRS='R41',ISW=-1,IPS=2,ICP=['J2','G1','T'],DS=0.01,NTST=200,NMX=2000,NPR=2)
+sv('R4')
+cl
+!rm -f .*
+run(e='modelper',c='modelper',s='TRm',IRS='R41',ISW=-1,IPS=2,ICP=['J2','G1','T'],DS='-',NTST=200,NMX=2000,NPR=2)
+sv('R4m')
+cl
+!rm -f .*
+
+r1=loadbd('R1')
+tr=loadbd('TR')
+trm=loadbd('TRm')
+r2=loadbd('R2')
+r2m=loadbd('R2m')
+r3=loadbd('R3')
+r3m=loadbd('R3m')
+r4=loadbd('R4')
+r4m=loadbd('R4m')
+pd=loadbd('PD')
+
+pl(r1+r2+r2m+r3+r3m+r4+r4m+tr+trm+pd,use_labels=False,color_list='purple yellow yellow orange orange red red brown brown green',symbol_color='black',bifurcation_x=['G1'],bifurcation_y=['J2'],maxx=1.,minx=0.4,maxy=-2.5,miny=-4.7)
+
